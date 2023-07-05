@@ -7,21 +7,33 @@ export type CategoryProperties = {
 };
 
 export class Category {
-  constructor(public readonly props: CategoryProperties) {}
-
-  get name(): string{
-    return this.props.name
+  constructor(public readonly props: CategoryProperties) {
+    this.description = this.props.description;
+    this.is_active = this.props.is_active;
+    this.props.created_at = this.props.created_at ?? new Date();
   }
 
-  get description(): string | undefined{
-    return this.props.description
+  get name(): string {
+    return this.props.name;
   }
 
-  get is_active(): boolean | undefined {
-    return this.props.is_active
+  get description(): string {
+    return this.props.description;
   }
-  
-  get created_at(): Date | undefined{
-    return this.props.created_at
+
+  private set description(value){
+    this.props.description = this.props.description ?? null;
+  }
+
+  get is_active(): boolean {
+    return this.props.is_active;
+  }
+
+  private set is_active(value){
+    this.props.is_active = this.props.is_active ?? true;
+  }
+
+  get created_at(): Date {
+    return this.props.created_at;
   }
 }
