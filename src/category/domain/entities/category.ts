@@ -1,4 +1,4 @@
-import {v4 as uuidv4} from 'uuid';
+import UniqueEntityId from '../../../@seedwork/domain/unique-entity-id.vo'
 
 // usando o props não precisa escrever na ordem que os atributos estão sendo passados
 export type CategoryProperties = {
@@ -10,10 +10,10 @@ export type CategoryProperties = {
 
 export class Category {
 
-  public readonly id: string
+  public readonly id: UniqueEntityId
   
-  constructor(public readonly props: CategoryProperties, id?: string) {
-    this.id = id || uuidv4();
+  constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
+    this.id = id || new UniqueEntityId();
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
     this.props.created_at = this.props.created_at ?? new Date();
@@ -26,7 +26,6 @@ export class Category {
   get description(): string {
     return this.props.description;
   }
-
   private set description(value){
     this.props.description = this.props.description ?? null;
   }
@@ -34,7 +33,6 @@ export class Category {
   get is_active(): boolean {
     return this.props.is_active;
   }
-
   private set is_active(value){
     this.props.is_active = value ?? true;
   }
