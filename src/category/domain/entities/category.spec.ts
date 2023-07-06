@@ -1,5 +1,6 @@
 import { omit } from "lodash";
 import { Category } from "./category";
+import { validate as uuidValidate } from "uuid";
 
 describe("Category Unit tests", () => {
   test("Constructor of category", () => {
@@ -41,6 +42,24 @@ describe("Category Unit tests", () => {
       description: "other",
     });
   });
+
+  test('id field', () => {
+    let category = new Category({name: 'Movie'});
+    expect(category.id).not.toBeNull(); //verifica se não é null
+    expect(uuidValidate(category.id)).toBeTruthy(); //verifica se é valido
+  
+    category = new Category({name: 'Movie'}, null);
+    expect(category.id).not.toBeNull();
+    expect(uuidValidate(category.id)).toBeTruthy();
+    
+    category = new Category({name: 'Movie'}, undefined);
+    expect(category.id).not.toBeNull(); 
+    expect(uuidValidate(category.id)).toBeTruthy(); 
+
+    category = new Category({name: 'Movie'}, "c97a2e65-2df4-427f-b805-ba36ed7b66e8");
+    expect(category.id).not.toBeNull();
+    expect(uuidValidate(category.id)).toBeTruthy();
+  })
 
   test("getter of name field", () => {
     const category = new Category({name: 'Movie'})

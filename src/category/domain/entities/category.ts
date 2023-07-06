@@ -1,3 +1,5 @@
+import {v4 as uuidv4} from 'uuid';
+
 // usando o props não precisa escrever na ordem que os atributos estão sendo passados
 export type CategoryProperties = {
   name: string;
@@ -7,7 +9,11 @@ export type CategoryProperties = {
 };
 
 export class Category {
-  constructor(public readonly props: CategoryProperties) {
+
+  public readonly id: string
+  
+  constructor(public readonly props: CategoryProperties, id?: string) {
+    this.id = id || uuidv4();
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
     this.props.created_at = this.props.created_at ?? new Date();
