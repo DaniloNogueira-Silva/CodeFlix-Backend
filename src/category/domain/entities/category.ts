@@ -1,6 +1,7 @@
+import Entity from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
-UniqueEntityId
+UniqueEntityId;
 // usando o props não precisa escrever na ordem que os atributos estão sendo passados
 export type CategoryProperties = {
   name: string;
@@ -9,12 +10,9 @@ export type CategoryProperties = {
   created_at?: Date;
 };
 
-export class Category {
-
-  public readonly id: UniqueEntityId
-  
+export class Category extends Entity<CategoryProperties> {
   constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
-    this.id = id || new UniqueEntityId();
+    super(props, id);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
     this.props.created_at = this.props.created_at ?? new Date();
@@ -27,14 +25,14 @@ export class Category {
   get description(): string {
     return this.props.description;
   }
-  private set description(value){
+  private set description(value) {
     this.props.description = this.props.description ?? null;
   }
 
   get is_active(): boolean {
     return this.props.is_active;
   }
-  private set is_active(value){
+  private set is_active(value) {
     this.props.is_active = value ?? true;
   }
 
