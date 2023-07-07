@@ -44,66 +44,73 @@ describe("Category Unit tests", () => {
     });
   });
 
-  test('id field', () => {
-    let category = new Category({name: 'Movie'});
-    expect(category.id).not.toBeNull(); //verifica se não é null
-    expect(category.id).toBeInstanceOf(UniqueEntityId);
-  
-    category = new Category({name: 'Movie'}, null);
-    expect(category.id).not.toBeNull();
-    expect(category.id).toBeInstanceOf(UniqueEntityId);
-    
-    category = new Category({name: 'Movie'}, undefined);
-    expect(category.id).not.toBeNull(); 
-    expect(category.id).toBeInstanceOf(UniqueEntityId); 
-
-    category = new Category({name: 'Movie'}, new UniqueEntityId());
-    expect(category.id).not.toBeNull();
-    expect(category.id).toBeInstanceOf(UniqueEntityId);
-  })
-
   test("getter of name field", () => {
-    const category = new Category({name: 'Movie'})
-    expect(category.name).toBe('Movie')
+    const category = new Category({ name: "Movie" });
+    expect(category.name).toBe("Movie");
   });
 
   test("getter and setter of description field", () => {
     let category = new Category({
-      name: 'Movie,'
+      name: "Movie,",
     });
     expect(category.description).toBeNull();
 
     category = new Category({
-      name: 'Movie',
-      description: 'some',
+      name: "Movie",
+      description: "some",
     });
-    expect(category.description).toBe('some')
+    expect(category.description).toBe("some");
   });
 
   test("getter and setter of is_ative prop", () => {
     let category = new Category({
-      name: 'Movie'
-    })
+      name: "Movie",
+    });
     expect(category.is_active).toBeTruthy();
 
     category = new Category({
-      name: 'Movie',
-      is_active: true
-    })
-    expect(category.is_active).toBeTruthy(); 
-  })
+      name: "Movie",
+      is_active: true,
+    });
+    expect(category.is_active).toBeTruthy();
+  });
 
   test("getter and setter of created_at prop", () => {
     let category = new Category({
-      name: 'Movie'
-    })
+      name: "Movie",
+    });
     expect(category.created_at).toBeInstanceOf(Date);
 
-    let created_at = new Date()
+    let created_at = new Date();
     category = new Category({
-      name: 'Movie',
-      created_at
-    })
-    expect(category.created_at).toBe(created_at); 
-  })
+      name: "Movie",
+      created_at,
+    });
+    expect(category.created_at).toBe(created_at);
+  });
+
+  it("should update a name and description", () => {
+    const category = new Category({ name: "Movie", description: "some" });
+    category.update("Action", "description");
+    expect(category.name).toBe("Action");
+    expect(category.description).toBe("description");
+  });
+
+  it('should active category', () => {
+    const category = new Category({
+      name: 'Séries',
+      is_active: false,
+    });
+    category.activate()
+    expect(category.is_active).toBeTruthy();
+  });
+
+  it('should active category', () => {
+    const category = new Category({
+      name: 'Filmes',
+      is_active: true,
+    });
+    category.desactive()
+    expect(category.is_active).toBeFalsy();
+  });
 });
