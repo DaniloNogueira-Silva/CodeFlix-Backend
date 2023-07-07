@@ -1,5 +1,6 @@
-import UniqueEntityId from '../../../@seedwork/domain/unique-entity-id.vo'
+import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
+UniqueEntityId
 // usando o props não precisa escrever na ordem que os atributos estão sendo passados
 export type CategoryProperties = {
   name: string;
