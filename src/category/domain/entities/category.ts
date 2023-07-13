@@ -1,5 +1,6 @@
 import Entity from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
+import ValidatorRules from "../../../@seedwork/validators/validator-rules";
 
 UniqueEntityId;
 // usando o props não precisa escrever na ordem que os atributos estão sendo passados
@@ -12,7 +13,7 @@ export type CategoryProperties = {
 
 export class Category extends Entity<CategoryProperties> {
   constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
-
+    Category.validate(props);
     super(props, id);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
@@ -21,8 +22,19 @@ export class Category extends Entity<CategoryProperties> {
 
   //métodos
   update(name: string, description: string): void {
+    Category.validate({
+      name,
+      description,
+      is_active: this.is_active,
+    });
     this.props.name = name;
     this.props.description = description;
+  }
+
+  static validate(props: Omit<CategoryProperties, "created_at">) {
+    ValidatorRules.values(props.name, "name").required().string();
+    ValidatorRules.values(props.description, "description").string();
+    ValidatorRules.values(props.is_active, "id_active").boolean();
   }
 
   activate() {

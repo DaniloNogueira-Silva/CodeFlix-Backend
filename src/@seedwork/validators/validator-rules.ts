@@ -21,6 +21,13 @@ export default class ValidatorRules {
     return this;
   }
 
+  boolean() {
+    if (typeof this.value !== "boolean") {
+      throw new ValidationError(`The ${this.property} must be a boolean`);
+    }
+    return this;
+  }
+
   maxLength(max: number) {
     if (this.value.length > max) {
       throw new ValidationError(
