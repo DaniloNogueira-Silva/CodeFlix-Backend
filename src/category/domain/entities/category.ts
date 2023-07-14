@@ -2,8 +2,7 @@ import Entity from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 import ValidatorRules from "../../../@seedwork/validators/validator-rules";
 
-UniqueEntityId;
-// usando o props não precisa escrever na ordem que os atributos estão sendo passados
+// Este tipo define as propriedades de uma entidade Category.
 export type CategoryProperties = {
   name: string;
   is_active?: boolean;
@@ -17,24 +16,29 @@ export class Category extends Entity<CategoryProperties> {
     super(props, id);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
+    // Define a propriedade created_at com o valor da propriedade props.created_at, ou com a data atual se a propriedade props.created_at não for definida.
     this.props.created_at = this.props.created_at ?? new Date();
   }
 
-  //métodos
   update(name: string, description: string): void {
     Category.validate({
       name,
       description,
       is_active: this.is_active,
     });
+    // Define as propriedades name e description com os valores especificados.
     this.props.name = name;
     this.props.description = description;
   }
 
+  // Este método estático valida as propriedades de um objeto CategoryProperties.
   static validate(props: Omit<CategoryProperties, "created_at">) {
-    ValidatorRules.values(props.name, "name").required().string();
+    ValidatorRules.values(props.name, "name")
+      .required()
+      .string()
+      .maxLength(255);
     ValidatorRules.values(props.description, "description").string();
-    ValidatorRules.values(props.is_active, "id_active").boolean();
+    ValidatorRules.values(props.is_active, "is_active").boolean();
   }
 
   activate() {
@@ -45,7 +49,7 @@ export class Category extends Entity<CategoryProperties> {
     this.props.is_active = false;
   }
 
-  //getters setters
+  // Esses getters e setters obtêm e definem as propriedades da categoria.
   get name(): string {
     return this.props.name;
   }
@@ -53,6 +57,7 @@ export class Category extends Entity<CategoryProperties> {
   get description(): string {
     return this.props.description;
   }
+
   private set description(value) {
     this.props.description = this.props.description ?? null;
   }
@@ -60,6 +65,7 @@ export class Category extends Entity<CategoryProperties> {
   get is_active(): boolean {
     return this.props.is_active;
   }
+
   private set is_active(value) {
     this.props.is_active = value ?? true;
   }
