@@ -1,6 +1,7 @@
 import Entity from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 import ValidatorRules from "../../../@seedwork/validators/validator-rules";
+import CategoryValidatorFactory from "../validators/category.validator";
 
 // Este tipo define as propriedades de uma entidade Category.
 export type CategoryProperties = {
@@ -32,13 +33,18 @@ export class Category extends Entity<CategoryProperties> {
   }
 
   // Este método estático valida as propriedades de um objeto CategoryProperties.
-  static validate(props: Omit<CategoryProperties, "created_at">) {
-    ValidatorRules.values(props.name, "name")
-      .required()
-      .string()
-      .maxLength(255);
-    ValidatorRules.values(props.description, "description").string();
-    ValidatorRules.values(props.is_active, "is_active").boolean();
+  // static validate(props: Omit<CategoryProperties, "created_at">) {
+  //   ValidatorRules.values(props.name, "name")
+  //     .required()
+  //     .string()
+  //     .maxLength(255);
+  //   ValidatorRules.values(props.description, "description").string();
+  //   ValidatorRules.values(props.is_active, "is_active").boolean();
+  // }
+
+  static validate(props: CategoryProperties){
+    const validator = CategoryValidatorFactory.create();
+    validator.validate(props)
   }
 
   activate() {
